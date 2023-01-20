@@ -16,5 +16,11 @@ def solve_euler(fun: Callable, t_span: np.array, y0: np.array):
     (np.array): macierz o wymiarze (n,m) zawierająca w wkolumnach kolejne rozwiązania fun w czasie t_span.  
 
     '''
-    
-    return None
+    if all(isinstance(i,np.ndarray) for i in [t_span,y0]) and callable(fun):
+        y = y0
+        for i in range(0, y.shape[0] - 1):
+            y[i+1,:] = y[i,:] + fun(y[i, :], t_span[i]) * (t_span[i + 1] - t_span[i])
+        return y
+
+    else:
+        return None
